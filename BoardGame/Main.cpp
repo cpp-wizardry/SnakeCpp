@@ -21,26 +21,14 @@ int main() {
     board.spawnFruit();
 
     char input = ' ';
-    MSG msg = { };
 
-    while (input != 'x')
+    MSG msg = {};
+    while (GetMessage(&msg, NULL, 0, 0))
     {
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-        {
-            if (msg.message == WM_QUIT)
-            {
-                input = 'x';
-                break;
-            }
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-
-        board.renderBoard();
-
-        std::cout << "\ndeplace toi avec zqsd\n";
-        std::cout << "Ton Score:" << snake->getScore();
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
+
 
     std::cout << "partie fini" << std::endl;
     return 0;

@@ -16,17 +16,8 @@ void Snake::move(int direction)
 {
     //gros pavé pour check si le joueur fait demi tour direct*
     //[TODO] rendre lisible et optimisé
-    if ((m_currentDirection == 1 && direction == 3) ||
-        (m_currentDirection == 3 && direction == 1) ||
-        (m_currentDirection == 2 && direction == 4) ||
-        (m_currentDirection == 4 && direction == 2))
-    {
+
         direction = m_currentDirection; // on ignore si le joueur fait un 180°
-    }
-    else
-    {
-        m_currentDirection = direction;
-    }
     int head = m_Body.front();
     int row = head / 16;
     int col = head % 16;
