@@ -1,9 +1,7 @@
 #include "Fenetre.h"
+
 namespace Fenetre {
-
-
-
-
+    int direction = 1;
     LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     
@@ -41,14 +39,20 @@ namespace Fenetre {
         case WM_KEYDOWN:
         {
             Board* board = (Board*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+            auto snake = board->getSnake();
             if (board)
             {
-                switch (wParam)
+                while (snake->getAlive())
                 {
-                case 'Q': board->moveSnake(1); break;
-                case 'Z': board->moveSnake(2); break;
-                case 'D': board->moveSnake(3); break;
-                case 'S': board->moveSnake(4); break;
+                    switch (wParam)
+                    {
+                    case 'Q': direction = 1; break;
+                    case 'Z': direction = 2; break;
+                    case 'D': direction = 3; break;
+                    case 'S': direction = 4; break;
+                    }
+                    board->moveSnake(direction);
+                    Sleep(200/snake->getSpeed());
                 }
             }
         }
@@ -106,11 +110,30 @@ namespace Fenetre {
 
 
                 HBRUSH brush = nullptr;
-
+                auto snakeLength = board.getSnake()->getBody().size();
                 if (std::dynamic_pointer_cast<Snake>(entity))
                 {
-                    brush = CreateSolidBrush(RGB(0, 0, 255)); 
+                    int segmentOrder = board.getSnakeSegmentOrder(index);
+                    int snakeLength = board.getSnake()->getBody().size();
 
+                    if (segmentOrder != -1 && snakeLength > 1)
+                    {
+
+                        float ratio = static_cast<float>(segmentOrder) / (snakeLength - 1);
+
+
+                        int brightness = static_cast<int>(ratio * 200); 
+
+                        int red = brightness;
+                        int green = brightness;
+                        int blue = 255;
+
+                        brush = CreateSolidBrush(RGB(red, green, blue));
+                    }
+                    else
+                    {
+                        brush = CreateSolidBrush(RGB(0, 0, 255)); //bleu si ça bug
+                    }
                 }
                 else if (std::dynamic_pointer_cast<Fruit>(entity))
                 {

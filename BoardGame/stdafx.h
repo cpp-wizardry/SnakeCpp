@@ -7,3 +7,4 @@
 #include <random>
 #include <math.h>
 #include <string>
+#include <conio.h>

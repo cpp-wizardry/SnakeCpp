@@ -3,7 +3,8 @@
 #include "Fruit.h"
 
 int Board::m_BoardSize = 16;
-
+std::random_device rd;
+std::mt19937 gen(rd());
 
 Board::Board()
 {
@@ -15,7 +16,7 @@ Board::Board()
 
             if (current == (m_BoardSize * m_BoardSize) / 2)
             {
-                m_Board.push_back(std::make_shared<Snake>(5.0f, 1, 128));
+                m_Board.push_back(std::make_shared<Snake>(5.0f, 1, 150));
             }
             else
             {
@@ -105,8 +106,6 @@ std::shared_ptr<Fruit> Board::spawnFruit()
 
     if (emptyPositions.empty()) return nullptr; 
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, emptyPositions.size() - 1);
 
     int chosenIndex = emptyPositions[distrib(gen)];

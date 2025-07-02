@@ -26,46 +26,44 @@ void Snake::move(int direction)
     else
     {
         m_currentDirection = direction;
-        int head = m_Body.front();
-        int row = head / 16;
-        int col = head % 16;
+    }
+    int head = m_Body.front();
+    int row = head / 16;
+    int col = head % 16;
 
-        switch (direction)
-        {
-        case 1: col--; break;
-        case 2: row--; break;
-        case 3: col++; break;
-        case 4: row++; break;
-        }
-
-        row = wrap(row, 16);
-        col = wrap(col, 16);
-
-        int newHead = row * 16 + col;
-
-        // check la collision on skip la tete sinon probleme
-        for (size_t i = 1; i < m_Body.size(); ++i)
-        {
-            if (newHead == m_Body[i])
-            {
-                std::cout << "Parti fini" << "\n";
-                exit(0); // on quitte pour l'instant 
-                //[TODO] faire un menu et un écran de fin
-            }
-        }
-
-        for (int i = m_Body.size() - 1; i > 0; --i)
-        {
-            m_Body[i] = m_Body[i - 1];
-        }
-
-        m_Body[0] = newHead;
-        Position = newHead;
+    switch (direction)
+    {
+    case 1: col--; break;
+    case 2: row--; break;
+    case 3: col++; break;
+    case 4: row++; break;
     }
 
-    
-}
+    row = wrap(row, 16);
+    col = wrap(col, 16);
 
+    int newHead = row * 16 + col;
+
+    // check la collision on skip la tete sinon probleme
+    for (size_t i = 1; i < m_Body.size(); ++i)
+    {
+        if (newHead == m_Body[i])
+        {
+            std::cout << "Parti fini" << "\n";
+            exit(0); // on quitte pour l'instant 
+            //[TODO] faire un menu et un écran de fin
+        }
+    }
+
+    for (int i = m_Body.size() - 1; i > 0; --i)
+    {
+        m_Body[i] = m_Body[i - 1];
+    }
+
+    m_Body[0] = newHead;
+    Position = newHead;
+
+}
 
 
 std::ostream& operator<<(std::ostream& os, const Snake& snake)

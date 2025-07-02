@@ -11,6 +11,7 @@ public:
 	{
 		m_Body.push_back(startPosition);
 		Position = startPosition; 
+		isAlive = true;
 	}
 	void addSegment(int count)
 	{
@@ -24,6 +25,8 @@ public:
 	void addSpeed(float speed);
 	
 	void removeSpeed(float speed);
+
+	float getSpeed() { return m_Speed; };
 	
 	void move(int direction);
 	
@@ -43,6 +46,7 @@ public:
 	int getScore() { return m_Score; };
 	std::vector<int> getBody() { return m_Body; };
 	int wrap(int value, int max);
+	bool getAlive() { return isAlive; };
 
 
 private:
@@ -53,6 +57,7 @@ private:
 	const int _OFFSET = 16;
 	int m_Score = 0;
 	int m_currentDirection = 1;
+	bool isAlive;
 
 
 	std::vector<int> m_Body;//liste des segments du serpent
