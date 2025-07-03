@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "entity.h"
+
 class Point : public Entity
 {
 public:
@@ -20,5 +21,3 @@ private:
 
 	friend std::ostream& operator<<(std::ostream& os, const Point& point);
 };
-
-

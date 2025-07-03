@@ -2,9 +2,6 @@
 #include "entity.h"
 #include "stdafx.h"
 
-
-
-
 class Fruit : public Entity
 {
 public:
@@ -17,5 +14,4 @@ public:
 
 private:
 	int points = 1000;
-
 };

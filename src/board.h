@@ -6,7 +6,6 @@
 
 class Board
 {
-
 public:
 	Board();
 	void renderBoard();
@@ -26,7 +25,4 @@ public:
 private:
 	std::vector<std::shared_ptr<Entity>>m_Board;
 	static int m_BoardSize;
-	
 };
-
-

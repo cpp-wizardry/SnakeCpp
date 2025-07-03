@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "entity.h"
 
-
 class Snake : public Entity
 {
 public:
@@ -20,7 +19,6 @@ public:
 			m_Body.push_back(m_Body.back()); //rajout d'un segment dans la derniere position
 		}
 	}
-
 
 	void addSpeed(float speed);
 	
@@ -56,12 +54,9 @@ public:
 			(dir1 == 2 && dir2 == 4) || (dir1 == 4 && dir2 == 2);
 	}
 
-
 	bool canChangeDirection = true;
 
-
 private:
-
 	float m_Speed = 3.0f*(0.3f*m_Length);//[TODO] rendre modulable si ajout difficulter
 	int m_Length = 1;
 	int position;
@@ -71,18 +66,6 @@ private:
 	int m_nextDirection = 3;
 	bool isAlive;
 
-
-
-
 	std::vector<int> m_Body;//liste des segments du serpent
 	friend std::ostream& operator<<(std::ostream& os, const Snake& snake);
-
-
-
 };
-
-
-
-
-
-
