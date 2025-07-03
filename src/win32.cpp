@@ -56,15 +56,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CREATE:
 	{
-		auto speed = board->getSnake().getSpeed();
-		SetTimer(hwnd, TIMER_ID, UINT(50 - speed), NULL); // todo: round?
+		SetTimer(hwnd, TIMER_ID, UINT(50 - board->snake.speed), NULL); // todo: round?
 	}
 		return 0;
 
 	case WM_KEYDOWN:
 	{
-		auto& snake = board->getSnake();
-		auto desiredDirection = snake.getCurrentDirection();
+		auto& snake = board->snake;
+		auto desiredDirection = snake.direction;
 
 		switch (wParam)
 		{
@@ -81,27 +80,17 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 #endif
 		}
 
-		if (!isOpposite(snake.getNextDirection(), desiredDirection))
+		if (!isOpposite(snake.direction, desiredDirection))
 		{
-			snake.setNextDirection(desiredDirection);
+			snake.direction = desiredDirection;
 		}
 	}
 		return 0;
 
 	case WM_TIMER:
 	{
-		auto& snake = board->getSnake();
-		if (snake.getAlive())
-		{
-			board->moveSnake(snake.getNextDirection());
-			snake.setCurrentDirection(snake.getNextDirection());
-
-			InvalidateRect(hwnd, NULL, TRUE);
-		}
-		else
-		{
-			KillTimer(hwnd, TIMER_ID);
-		}
+		board->moveSnake();
+		InvalidateRect(hwnd, NULL, TRUE);
 	}
 		return 0;
 
@@ -159,8 +148,8 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 			HBRUSH brush = nullptr;
 			if (entity == Entity::Kind::snake)
 			{
-				int segmentOrder = board->getSnakeSegmentOrder(index);
-				int snakeLength = int(board->getSnake().getBody().size());
+				int segmentOrder = board->snake.getSnakeSegmentOrder(index);
+				int snakeLength = board->snake.size();
 
 				if (segmentOrder != -1 && snakeLength > 1)
 				{
@@ -176,7 +165,7 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 				}
 				else
 				{
-					brush = CreateSolidBrush(RGB(0, 0, 255)); //bleu si ça bug
+					brush = CreateSolidBrush(RGB(0, 0, 255));
 				}
 			}
 			else if (entity == Entity::Kind::fruit)
@@ -185,14 +174,14 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 			}
 			else
 			{
-				brush = CreateSolidBrush(RGB(0, 255, 0)); 
+				brush = CreateSolidBrush(RGB(0, 255, 0));
 			}
 
 			FillRect(hdc, &square, brush);
 			DeleteObject(brush);
 			SetBkMode(hdc, TRANSPARENT);
 
-			int segmentOrder = board->getSnakeSegmentOrder(index);
+			int segmentOrder = board->snake.getSnakeSegmentOrder(index);
 			if (segmentOrder != -1) {
 				std::wstring text = std::to_wstring(segmentOrder);
 				DrawText(hdc, text.c_str(), -1, &square, DT_CENTER | DT_VCENTER | DT_SINGLELINE);

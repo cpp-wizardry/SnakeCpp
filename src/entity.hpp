@@ -7,8 +7,8 @@ constexpr int boardSize = 16;
 struct Index;
 
 struct Pos {
-	int x;
-	int y;
+	int x = 0;
+	int y = 0;
 
 	Pos(int x, int y) : x(x), y(y) {}
 	Pos(int index) : x(index % boardSize), y(index / boardSize) {}
@@ -21,7 +21,7 @@ struct Pos {
 };
 
 struct Index {
-	int idx;
+	int idx = 0;
 
 	Index(int idx) : idx(idx) {}
 	Index(int x, int y) : idx(y * boardSize + x) {}
@@ -56,11 +56,11 @@ public:
 		fruit,
 	};
 
-	Kind const kind;
+	//Kind const kind; // it's never used
 
 protected:
-	Entity(Kind kind)
-		: kind(kind)
+	Entity(Kind /*kind*/)
+		//: kind(kind)
 	{
 	}
 };

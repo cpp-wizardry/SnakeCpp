@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include <array>
 #include <exception>
 #include <math.h>
 #include <memory>

@@ -10,19 +10,15 @@ class Board
 public:
 	Board();
 
-	Entity::Kind getEntityAt(Index index) const { return m_board[index.idx]; }
+	Entity::Kind getEntityAt(Index index) const { return board[index.idx]; }
 
-	Snake& getSnake() { return m_snake; }
-	void moveSnake(Direction direction);
-	int getSnakeSegmentOrder(Index index);
-
+	void moveSnake();
 	void spawnFruit();
 
-private:
-	Snake m_snake;
-	Fruit m_fruit;
+	Snake snake;
+	Fruit fruit;
 
-	std::vector<Entity::Kind> m_board;
+	std::array<Entity::Kind, boardSize * boardSize> board;
 };
 
 } // namespace snake

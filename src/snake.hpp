@@ -9,54 +9,33 @@ class Snake : public Entity
 public:
 	Snake(float speed, int score, Index pos)
 		: Entity(Kind::snake)
-		, m_Speed(speed)
-		, m_Score(score)
+		, speed(speed)
+		, score(score)
 	{
-		m_Body.push_back(pos);
+		body.push_back(pos);
 	}
 
-	void addSegment(int count)
+	void grow(int count = 1);
+	void move();
+
+	Index head() const { return body[0]; }
+	int size() const { return int(body.size()); }
+
+	int getSnakeSegmentOrder(Index index) const
 	{
-		for (int i = 0; i < count; ++i)
-		{
-			m_Body.push_back(m_Body.back()); //rajout d'un segment dans la derniere position
+		for (size_t i = 0; i < body.size(); ++i) {
+			if (body[i] == index)
+				return static_cast<int>(i);
 		}
+		return -1;
 	}
 
-	void addSpeed(float speed);
-	void removeSpeed(float speed);
-	float getSpeed() const { return m_Speed; }
-	
-	void move(Direction direction);
-	Index getPosition() const { return m_Body[0]; }
-	
-	void addScore(int score) { this->m_Score += score; }
-	int getScore() { return m_Score; }
+	float speed = 1.0f;
+	int score = 0;
 
-	std::vector<Index> getBody() const { return m_Body; }
+	Direction direction = Direction::right;
 
-	int wrap(int value, int max);
-
-	bool getAlive() { return isAlive; }
-
-	void setCurrentDirection(Direction direction) { this->m_currentDirection = direction; }
-	Direction getCurrentDirection() const { return m_currentDirection; }
-	void setNextDirection(Direction nextDirection) { this->m_nextDirection = nextDirection; }
-	Direction getNextDirection() const { return m_nextDirection; }
-
-	bool canChangeDirection = true;
-
-private:
-	float m_Speed = 3.0f*(0.3f*m_Length);//[TODO] rendre modulable si ajout difficulter
-	int m_Length = 1;
-	int position;
-	const int _OFFSET = 16;
-	int m_Score = 0;
-	Direction m_currentDirection = Direction::left;
-	Direction m_nextDirection = Direction::right;
-	bool isAlive = true;
-
-	std::vector<Index> m_Body;
+	std::vector<Index> body;
 };
 
 } // namespace snake

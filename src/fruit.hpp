@@ -14,7 +14,7 @@ public:
 	}
 
 	Index pos;
-	int points = 1000;
+	static constexpr int points = 1000;
 };
 
 } // namespace snake

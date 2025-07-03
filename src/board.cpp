@@ -12,64 +12,49 @@ namespace {
 }
 
 Board::Board()
-	: m_snake(5.0f, 1, Index{150})
-	, m_fruit(Index{0})
-	, m_board(boardSize * boardSize)
+	: snake(5.0f, 1, Index{150})
+	, fruit(Index{0})
 {
-	m_board[m_snake.getPosition().idx] = Entity::Kind::snake;
+	for (auto pos : snake.body)
+	{
+		board[pos.idx] = Entity::Kind::snake;
+	}
 	spawnFruit();
 }
 
-void Board::moveSnake(Direction direction)
+void Board::moveSnake()
 {
-	auto oldBody = m_snake.getBody();
+	auto last = snake.body.back();
 
-	m_snake.move(direction);
-	if (m_snake.getPosition() == m_fruit.pos)
+	snake.move();
+	if (snake.head() == fruit.pos)
 	{
+		snake.score += fruit.points;
 		spawnFruit();
-		m_snake.addSegment(1);
-		m_snake.addScore(m_fruit.points);
+		snake.grow();
 	}
 
-	for (auto pos : oldBody)
-	{
-		m_board[pos.idx] = Entity::Kind::none;
-	}
-
-	for (auto pos : m_snake.getBody())
-	{
-		m_board[pos.idx] = Entity::Kind::snake;
-	}
-}
-
-int Board::getSnakeSegmentOrder(Index index)
-{
-	const auto& body = getSnake().getBody(); 
-	for (size_t i = 0; i < body.size(); ++i) {
-		if (body[i] == index)
-			return static_cast<int>(i);
-	}
-	return -1;
+	board[last.idx] = Entity::Kind::none;
+	board[snake.body.back ().idx] = Entity::Kind::snake; // in case snake.body.back() == last (like grow)
+	board[snake.body.front().idx] = Entity::Kind::snake;
 }
 
 void Board::spawnFruit()
 {
 	std::vector<Index> emptyPositions;
-	for (int i = 0; i < int(m_board.size()); i++)
+	for (int i = 0; i < int(board.size()); i++)
 	{
-		if (m_board[i] == Entity::Kind::none)
+		if (board[i] == Entity::Kind::none)
 		{
 			emptyPositions.push_back(Index{i});
 		}
 	}
 
-	assert(!emptyPositions.empty()); // todo: win?
+	if (emptyPositions.empty())
+		exit(0); // todo: win?
 
-	std::uniform_int_distribution<> distrib(0, int(emptyPositions.size()) - 1);
-
-	m_fruit.pos = emptyPositions[distrib(gen)];
-	m_board[m_fruit.pos.idx] = Entity::Kind::fruit;
+	fruit.pos = emptyPositions[std::uniform_int_distribution<>(0, int(emptyPositions.size()) - 1)(gen)];
+	board[fruit.pos.idx] = Entity::Kind::fruit;
 }
 
 } // namespace snake

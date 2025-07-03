@@ -4,27 +4,19 @@
 
 namespace snake {
 
-void Snake::addSpeed(float speed)
+void Snake::grow(int count)
 {
-	m_Speed += speed;
+	body.reserve(body.size() + count);
+	auto const p = body.back();
+	for (int i = 0; i < count; ++i)
+	{
+		body.push_back(p);
+	}
 }
 
-void Snake::removeSpeed(float speed)
+void Snake::move()
 {
-	m_Speed -= speed;
-}
-
-int Snake::wrap(int value, int max) {
-	return (value + max) % max;
-}
-
-void Snake::move(Direction direction)
-{
-	//gros pavé pour check si le joueur fait demi tour direct*
-	//[TODO] rendre lisible et optimisé
-
-	direction = m_currentDirection; // on ignore si le joueur fait un 180°
-	Pos p = m_Body.front();
+	Pos p = head();
 
 	switch (direction)
 	{
@@ -37,23 +29,20 @@ void Snake::move(Direction direction)
 	p.wrap();
 
 	Index newHead = p;
-
-	// check la collision on skip la tete sinon probleme
-	for (size_t i = 1; i < m_Body.size(); ++i)
+	for (size_t i = 1; i < body.size(); ++i)
 	{
-		if (newHead == m_Body[i])
+		if (newHead == body[i])
 		{
-			exit(0); // on quitte pour l'instant 
-			//[TODO] faire un menu et un écran de fin
+			exit(0); // todo: lose
 		}
 	}
 
-	for (int i = int(m_Body.size()) - 1; i > 0; --i)
+	for (int i = size() - 1; i > 0; --i)
 	{
-		m_Body[i] = m_Body[i - 1];
+		body[i] = body[i - 1];
 	}
 
-	m_Body[0] = newHead;
+	body[0] = newHead;
 }
 
 } // namespace snake
