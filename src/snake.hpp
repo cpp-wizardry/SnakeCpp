@@ -8,12 +8,13 @@ class Snake : public Entity
 {
 public:
 	Snake(float speed, int score, int startPosition)
-		: m_Speed(speed), m_Score(score)
+		: Entity(startPosition)
+		, m_Speed(speed)
+		, m_Score(score)
 	{
 		m_Body.push_back(startPosition);
-		Position = startPosition; 
-		isAlive = true;
 	}
+
 	void addSegment(int count)
 	{
 		for (int i = 0; i < count; ++i)
@@ -29,9 +30,6 @@ public:
 	float getSpeed() { return m_Speed; };
 	
 	void move(int direction);
-	
-	void render() const override {
-	}
 	
 	void setPosition(int pos) { position = pos; };
 	
@@ -64,10 +62,9 @@ private:
 	int m_Score = 0;
 	int m_currentDirection = 1;
 	int m_nextDirection = 3;
-	bool isAlive;
+	bool isAlive = true;
 
-	std::vector<int> m_Body;//liste des segments du serpent
-	friend std::ostream& operator<<(std::ostream& os, const Snake& snake);
+	std::vector<int> m_Body;
 };
 
 } // namespace snake

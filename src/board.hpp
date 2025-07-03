@@ -9,10 +9,10 @@ namespace snake {
 class Board
 {
 public:
-	Board();
-	void renderBoard();
 	static int getBoardSize() { return m_BoardSize; };
 	static void setBoardSize(int Size) { m_BoardSize = Size; }
+
+	Board();
 	std::shared_ptr<Snake> getSnake() const;
 	void moveSnake(int direction);
 	const std::vector<std::shared_ptr<Entity>>& getEntities() const { return m_Board; }
@@ -23,10 +23,9 @@ public:
 	}
 	int getSnakeSegmentOrder(int index) const;
 
-
 private:
-	std::vector<std::shared_ptr<Entity>>m_Board;
 	static int m_BoardSize;
+	std::vector<std::shared_ptr<Entity>>m_Board;
 };
 
 } // namespace snake

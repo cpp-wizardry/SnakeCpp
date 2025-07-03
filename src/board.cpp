@@ -30,10 +30,6 @@ Board::Board()
 	}
 }
 
-void Board::renderBoard()
-{
-}
-
 std::shared_ptr<Snake> Board::getSnake() const
 {
 	for (auto& entity : m_Board)
@@ -77,7 +73,6 @@ void Board::moveSnake(int direction)
 		m_Board[pos] = snake;
 	}
 }
-
 
 std::shared_ptr<Fruit> Board::spawnFruit()
 {

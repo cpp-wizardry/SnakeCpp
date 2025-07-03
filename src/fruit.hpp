@@ -7,10 +7,13 @@ namespace snake {
 class Fruit : public Entity
 {
 public:
-	Fruit(int pos) { this->Position = pos; }
-	bool isCollidable() override { return true; };
-	void render() const override {
+	Fruit(int pos)
+		: Entity(pos)
+	{
 	}
+
+	bool isCollidable() override { return true; };
+
 	int getPoints() { return points; };
 
 private:

@@ -6,14 +6,19 @@ class Entity
 {
 public:
 	virtual ~Entity() = default;
-	virtual void render() const = 0;
+
+	virtual bool isCollidable() { return false; };
 
 	int getPosition() const { return Position; }
 	void setPosition(int pos) { Position = pos; }
-	virtual bool isCollidable() { return false; };
 
 protected:
-	int Position; 
+	Entity(int pos)
+		: Position(pos)
+	{
+	}
+
+	int Position;
 };
 
 } // namespace snake

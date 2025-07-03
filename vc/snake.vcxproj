@@ -148,7 +148,6 @@
     <ClCompile Include="..\src\board.cpp" />
     <ClCompile Include="..\src\fenetre.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\point.cpp" />
     <ClCompile Include="..\src\snake.cpp" />
   </ItemGroup>
   <ItemGroup>

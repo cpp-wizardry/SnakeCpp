@@ -7,19 +7,21 @@ namespace snake {
 class Point : public Entity
 {
 public:
-	Point(int x, int y);
-	
-	int getPosX() {return x;};
-	int getPosY() {return y;};
-	bool isCollidable() override { return false; };
-	void render() const override {
+	Point(int x, int y)
+		: Entity(y*16 + x)
+		, x(x)
+		, y(y)
+	{
 	}
+	
+	bool isCollidable() override { return false; };
+
+	int getPosX() { return x; };
+	int getPosY() { return y; };
 
 private:
 	int x, y;
 	int Position = 0;
-
-	friend std::ostream& operator<<(std::ostream& os, const Point& point);
 };
 
 } // namespace snake
