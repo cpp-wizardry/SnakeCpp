@@ -62,7 +62,7 @@ public:
 
 private:
 
-	float m_Speed = 3.0f*(0.3*m_Length);//[TODO] rendre modulable si ajout difficulter
+	float m_Speed = 3.0f*(0.3f*m_Length);//[TODO] rendre modulable si ajout difficulter
 	int m_Length = 1;
 	int position;
 	const int _OFFSET = 16;

@@ -96,7 +96,7 @@ void Board::moveSnake(int direction)
 std::shared_ptr<Fruit> Board::spawnFruit()
 {
     std::vector<int> emptyPositions;
-    for (int i = 0; i < m_Board.size(); i++)
+    for (int i = 0; i < int(m_Board.size()); i++)
     {
         if (std::dynamic_pointer_cast<Point>(m_Board[i]))
         {
@@ -106,7 +106,7 @@ std::shared_ptr<Fruit> Board::spawnFruit()
 
     if (emptyPositions.empty()) return nullptr; 
 
-    std::uniform_int_distribution<> distrib(0, emptyPositions.size() - 1);
+    std::uniform_int_distribution<> distrib(0, int(emptyPositions.size()) - 1);
 
     int chosenIndex = emptyPositions[distrib(gen)];
 

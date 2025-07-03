@@ -46,7 +46,7 @@ void Snake::move(int direction)
         }
     }
 
-    for (int i = m_Body.size() - 1; i > 0; --i)
+    for (int i = int(m_Body.size()) - 1; i > 0; --i)
     {
         m_Body[i] = m_Body[i - 1];
     }

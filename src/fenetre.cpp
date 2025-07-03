@@ -44,7 +44,7 @@ namespace Fenetre {
                     std::wstring fpsText = L"FPS: " + std::to_wstring(fps);
                     std::wstring title = L"Snake - FPS: " + std::to_wstring(fps);
                     SetWindowText(hwnd, title.c_str());
-                    TextOut(hdc, 10, 10, fpsText.c_str(), fpsText.length());
+                    TextOut(hdc, 10, 10, fpsText.c_str(), int(fpsText.length()));
                 }
             }
             //HBRUSH CustomBrush = CreateSolidBrush(50);//def de la couleur du pinceau
@@ -60,7 +60,7 @@ namespace Fenetre {
             Board* board = (Board*)pcs->lpCreateParams;
             SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)board);
             auto speed = board->getSnake()->getSpeed();
-            SetTimer(hwnd, TIMER_ID, 50-speed, NULL);
+            SetTimer(hwnd, TIMER_ID, UINT(50 - speed), NULL); // todo: round?
 
         }
         break;
@@ -165,7 +165,7 @@ namespace Fenetre {
                 if (std::dynamic_pointer_cast<Snake>(entity))
                 {
                     int segmentOrder = board.getSnakeSegmentOrder(index);
-                    int snakeLength = board.getSnake()->getBody().size();
+                    int snakeLength = int(board.getSnake()->getBody().size());
 
                     if (segmentOrder != -1 && snakeLength > 1)
                     {
