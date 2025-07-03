@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-#include "Entity.h"
+#include "entity.h"
 class Point : public Entity
 {
 public:

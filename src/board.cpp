@@ -1,6 +1,6 @@
-#include "Board.h"
-#include "Snake.h"
-#include "Fruit.h"
+#include "board.h"
+#include "snake.h"
+#include "fruit.h"
 
 int Board::m_BoardSize = 16;
 std::random_device rd;

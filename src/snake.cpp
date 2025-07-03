@@ -1,4 +1,4 @@
-#include "Snake.h"
+#include "snake.h"
 
 void Snake::addSpeed(float speed)
 {

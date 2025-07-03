@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "board.h"
 
-#include "Fruit.h"
+#include "fruit.h"
 namespace Fenetre {
 
     LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

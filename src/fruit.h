@@ -1,5 +1,5 @@
 #pragma once
-#include "Entity.h"
+#include "entity.h"
 #include "stdafx.h"
 
 

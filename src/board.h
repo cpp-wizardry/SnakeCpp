@@ -1,7 +1,7 @@
 #pragma once
-#include "Point.h"
+#include "point.h"
 #include "stdafx.h"
-#include "Snake.h"
+#include "snake.h"
 #include "fruit.h"
 
 class Board

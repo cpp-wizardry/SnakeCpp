@@ -1,7 +1,7 @@
-#include "Board.h"
+#include "board.h"
 #include "stdafx.h"
 #include <conio.h>
-#include "Fenetre.h"
+#include "fenetre.h"
 
 
 int main() {
