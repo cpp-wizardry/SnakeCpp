@@ -22,18 +22,6 @@ Board::Board()
 	spawnFruit();
 }
 
-Entity const& Board::getEntityAt(int index) const
-{
-	static Point pt {0, 0};
-
-	switch (m_Board[index]) {
-	case Entity::none: pt.setPosition(index); return pt;
-	case Entity::snake: return m_snake;
-	case Entity::fruit: return m_fruit;
-	}
-	SNAKE_UNREACHABLE;
-}
-
 void Board::moveSnake(int direction)
 {
 	std::vector<int> oldBody = m_snake.getBody();

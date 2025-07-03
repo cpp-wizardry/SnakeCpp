@@ -154,10 +154,10 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 			};
 
 			int index = row * Board::getBoardSize() + col;
-			Entity const& entity = board->getEntityAt(index);
+			auto entity = board->getEntityAt(index);
 
 			HBRUSH brush = nullptr;
-			if (dynamic_cast<Snake const*>(&entity))
+			if (entity == Board::Entity::snake)
 			{
 				int segmentOrder = board->getSnakeSegmentOrder(index);
 				int snakeLength = int(board->getSnake().getBody().size());
@@ -179,7 +179,7 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 					brush = CreateSolidBrush(RGB(0, 0, 255)); //bleu si ça bug
 				}
 			}
-			else if (dynamic_cast<Fruit const*>(&entity))
+			else if (entity == Board::Entity::fruit)
 			{
 				brush = CreateSolidBrush(RGB(255, 0, 0));
 			}

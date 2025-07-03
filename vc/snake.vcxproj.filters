@@ -32,9 +32,6 @@
     <ClInclude Include="..\src\fruit.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\point.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\snake.hpp">
       <Filter>src</Filter>
     </ClInclude>

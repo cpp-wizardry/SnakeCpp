@@ -12,8 +12,6 @@ public:
 	{
 	}
 
-	bool isCollidable() override { return true; };
-
 	int getPoints() { return points; };
 
 private:

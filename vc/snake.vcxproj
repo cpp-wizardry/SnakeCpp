@@ -156,7 +156,6 @@
     <ClInclude Include="..\src\util.hpp" />
     <ClInclude Include="..\src\win32.hpp" />
     <ClInclude Include="..\src\fruit.hpp" />
-    <ClInclude Include="..\src\point.hpp" />
     <ClInclude Include="..\src\snake.hpp" />
     <ClInclude Include="..\src\stdafx.h" />
   </ItemGroup>

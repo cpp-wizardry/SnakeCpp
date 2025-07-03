@@ -1,7 +1,6 @@
 #pragma once
 
 #include "fruit.hpp"
-#include "point.hpp"
 #include "snake.hpp"
 
 namespace snake {
@@ -14,7 +13,13 @@ public:
 
 	Board();
 
-	Entity const& getEntityAt(int index) const;
+	enum class Entity {
+		none,
+		snake,
+		fruit,
+	};
+
+	Entity const& getEntityAt(int index) const { return m_Board[index]; }
 
 	Snake& getSnake() { return m_snake; }
 	void moveSnake(int direction);
@@ -28,11 +33,6 @@ private:
 	Snake m_snake;
 	Fruit m_fruit;
 
-	enum class Entity {
-		none,
-		snake,
-		fruit,
-	};
 	std::vector<Entity> m_Board;
 };
 

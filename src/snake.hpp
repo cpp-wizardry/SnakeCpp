@@ -35,8 +35,6 @@ public:
 	
 	int getPosition() const { return m_Body[0]; }
 	
-	bool isCollidable() override { return true; };
-	
 	void addScore(int score) { this->m_Score += score; };
 	
 	int getScore() { return m_Score; };
