@@ -1,5 +1,4 @@
 #include "Fenetre.h"
-#include <chrono>
 #define TIMER_ID 1
 
 
@@ -9,6 +8,8 @@ namespace Fenetre {
     int frames = 0;
     int fps = 0;
     auto lastTime = steady_clock::now();
+    auto lastMoveTime = steady_clock::now();
+
 
     LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
@@ -60,7 +61,7 @@ namespace Fenetre {
             Board* board = (Board*)pcs->lpCreateParams;
             SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)board);
             auto speed = board->getSnake()->getSpeed();
-            SetTimer(hwnd, TIMER_ID, 50-speed, NULL);
+            SetTimer(hwnd, TIMER_ID, 1, NULL);
 
         }
         break;
@@ -79,10 +80,12 @@ namespace Fenetre {
             case 'S': desiredDirection = 4; break;
             }
 
-            if (!snake->isOpposite(snake->getNextDirection(), desiredDirection))
+            if (snake->canChangeDirection && !snake->isOpposite(snake->getCurrentDirection(), desiredDirection))
             {
                 snake->setNextDirection(desiredDirection);
+                snake->canChangeDirection = false; 
             }
+
         }
         break;
 
@@ -94,9 +97,16 @@ namespace Fenetre {
                 auto snake = board->getSnake();
                 if (snake->getAlive())
                 {
-                    board->moveSnake(snake->getNextDirection());
+                    auto now = steady_clock::now();
+                    auto elapsed = duration_cast<milliseconds>(now - lastMoveTime).count();
 
-                    snake->setCurrentDirection(snake->getNextDirection());
+                    if (elapsed >= 200 - (10 * snake->getSpeed()))
+                    {
+                        board->moveSnake(snake->getNextDirection());
+                        snake->setCurrentDirection(snake->getNextDirection());
+
+                        lastMoveTime = now;
+                    }
 
                     InvalidateRect(hwnd, NULL, TRUE);
                 }

@@ -16,7 +16,7 @@ Board::Board()
 
             if (current == (m_BoardSize * m_BoardSize) / 2)
             {
-                m_Board.push_back(std::make_shared<Snake>(5.0f, 1, 150));
+                m_Board.push_back(std::make_shared<Snake>(5.0f, 1, 0));
             }
             else
             {

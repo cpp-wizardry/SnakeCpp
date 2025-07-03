@@ -1,6 +1,5 @@
 #include "Board.h"
 #include "stdafx.h"
-#include <conio.h>
 #include "Fenetre.h"
 
 

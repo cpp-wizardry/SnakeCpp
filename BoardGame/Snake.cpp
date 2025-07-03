@@ -53,6 +53,8 @@ void Snake::move(int direction)
 
     m_Body[0] = newHead;
     Position = newHead;
+    canChangeDirection = true;//on reautorise le changement de direction
+
 
 }
 
