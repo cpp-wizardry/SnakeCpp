@@ -161,7 +161,6 @@ namespace Fenetre {
 
 
                 HBRUSH brush = nullptr;
-                auto snakeLength = board.getSnake()->getBody().size();
                 if (std::dynamic_pointer_cast<Snake>(entity))
                 {
                     int segmentOrder = board.getSnakeSegmentOrder(index);

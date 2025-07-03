@@ -8,8 +8,7 @@ int main() {
 
     Board board;
 
-    HWND hwnd = Fenetre::CreateMainWindow(&board);
-    board.setWindowHandle(hwnd);
+    Fenetre::CreateMainWindow(&board);
 
     std::shared_ptr<Snake> snake = board.getSnake();
     if (!snake)
@@ -19,8 +18,6 @@ int main() {
     }
 
     board.spawnFruit();
-
-    char input = ' ';
 
     MSG msg = {};
     while (GetMessage(&msg, NULL, 0, 0))

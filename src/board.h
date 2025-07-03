@@ -15,7 +15,6 @@ public:
 	std::shared_ptr<Snake> getSnake() const;
 	void moveSnake(int direction);
 	const std::vector<std::shared_ptr<Entity>>& getEntities() const { return m_Board; }
-	void setWindowHandle(HWND hwnd) { this->hwnd = hwnd; };
 	std::shared_ptr<Fruit> spawnFruit();
 	std::shared_ptr<Entity> getEntityAt(int index) const
 	{
@@ -27,7 +26,6 @@ public:
 private:
 	std::vector<std::shared_ptr<Entity>>m_Board;
 	static int m_BoardSize;
-	HWND hwnd = nullptr;
 	
 };
 

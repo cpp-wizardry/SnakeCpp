@@ -62,8 +62,6 @@ void Board::moveSnake(int direction)
     std::shared_ptr<Snake> snake = getSnake();
     if (!snake) return;
 
-    int oldHeadPosition = snake->getPosition();
-
     std::vector<int> oldBody = snake->getBody(); 
 
     snake->move(direction);
@@ -88,8 +86,6 @@ void Board::moveSnake(int direction)
     {
         m_Board[pos] = snake;
     }
-
-    InvalidateRect(hwnd, NULL, TRUE);
 }
 
 
