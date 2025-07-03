@@ -2,8 +2,6 @@
 
 #include <Windows.h>
 
-#include <conio.h>
-#include <iostream>
 #include <exception>
 #include <math.h>
 #include <memory>

@@ -23,7 +23,7 @@ void Snake::move(int direction)
 	//gros pavé pour check si le joueur fait demi tour direct*
 	//[TODO] rendre lisible et optimisé
 
-		direction = m_currentDirection; // on ignore si le joueur fait un 180°
+	direction = m_currentDirection; // on ignore si le joueur fait un 180°
 	int head = m_Body.front();
 	int row = head / 16;
 	int col = head % 16;
@@ -46,7 +46,6 @@ void Snake::move(int direction)
 	{
 		if (newHead == m_Body[i])
 		{
-			std::cout << "Parti fini" << "\n";
 			exit(0); // on quitte pour l'instant 
 			//[TODO] faire un menu et un écran de fin
 		}
@@ -59,13 +58,6 @@ void Snake::move(int direction)
 
 	m_Body[0] = newHead;
 	Position = newHead;
-
-}
-
-std::ostream& operator<<(std::ostream& os, const Snake& /*snake*/)
-{
-	os << "~";
-	return os;
 }
 
 } // namespace snake

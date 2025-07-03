@@ -31,8 +31,6 @@ public:
 	void move(int direction);
 	
 	void render() const override {
-		//system("color 0C");
-		std::cout << "\033[34m~\033[0m"; //ANSI code color pour changement de la couleur dans terminal
 	}
 	
 	void setPosition(int pos) { position = pos; };

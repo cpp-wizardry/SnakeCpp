@@ -44,17 +44,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				frames = 0;
 				lastTime = currentTime;
 
-				std::cout << "FPS: " << fps << std::endl;
 				std::wstring fpsText = L"FPS: " + std::to_wstring(fps);
 				std::wstring title = L"Snake - FPS: " + std::to_wstring(fps);
 				SetWindowText(hwnd, title.c_str());
-				TextOut(hdc, 10, 10, fpsText.c_str(), int(fpsText.length()));
+				TextOut(hdc, 10, 10, fpsText.c_str(), int(fpsText.length())); // todo: show every frame
 			}
 		}
 		//HBRUSH CustomBrush = CreateSolidBrush(50);//def de la couleur du pinceau
 		//FillRect(hdc, &ps.rcPaint, CustomBrush);//application de la peinture sur le background
 		//DeleteObject(CustomBrush);//nettoyage du pinceau
-	   
+
 		EndPaint(hwnd, &ps);
 	}
 	break;
@@ -132,12 +131,10 @@ HWND CreateMainWindow(Board *board)
 		CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, NULL, NULL, GetModuleHandle(NULL), board
 	);
 
-	if (hwnd == NULL) {
-		std::cout << "debug: echec de creation de la fenetre\n";
-		exit(1);
+	if (hwnd != NULL) {
+		ShowWindow(hwnd, SW_SHOW);
 	}
 
-	ShowWindow(hwnd, SW_SHOW);
 	return hwnd;
 }
 

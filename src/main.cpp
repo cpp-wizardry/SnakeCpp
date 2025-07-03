@@ -3,15 +3,18 @@
 #include "board.hpp"
 #include "fenetre.hpp"
 
-int main() {
+int WINAPI wWinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, PWSTR /*pCmdLine*/, int /*nCmdShow*/)
+{
 	snake::Board board;
 
-	snake::Fenetre::CreateMainWindow(&board);
+	if (snake::Fenetre::CreateMainWindow(&board) == NULL)
+	{
+		return 1;
+	}
 
 	std::shared_ptr<snake::Snake> snake = board.getSnake();
 	if (!snake)
 	{
-		std::cout << "debug: snake pas trouvé\n\r";
 		return 1;
 	}
 
@@ -24,6 +27,5 @@ int main() {
 		DispatchMessage(&msg);
 	}
 
-	std::cout << "partie fini" << std::endl;
 	return 0;
 }

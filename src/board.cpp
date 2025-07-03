@@ -32,20 +32,7 @@ Board::Board()
 
 void Board::renderBoard()
 {
-	int TotalSize = m_BoardSize * m_BoardSize;
-	system("cls"); //clear le terminal à chaque nouveau render
-
-	for (int i = 0; i < TotalSize; i++)
-	{
-		m_Board[i]->render();
-
-		if ((i + 1) % m_BoardSize == 0)
-		{
-			std::cout << std::endl;
-		}
-	}
 }
-
 
 std::shared_ptr<Snake> Board::getSnake() const
 {

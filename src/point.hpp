@@ -13,8 +13,6 @@ public:
 	int getPosY() {return y;};
 	bool isCollidable() override { return false; };
 	void render() const override {
-		//system("color 0A");
-		std::cout << "\033[32mo\033[0m";
 	}
 
 private:
