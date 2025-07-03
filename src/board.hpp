@@ -10,22 +10,30 @@ class Board
 {
 public:
 	static int getBoardSize() { return m_BoardSize; };
-	static void setBoardSize(int Size) { m_BoardSize = Size; }
+	static void setBoardSize(int Size) { m_BoardSize = Size; } // todo: this is broken
 
 	Board();
-	std::shared_ptr<Snake> getSnake() const;
+
+	Entity const& getEntityAt(int index) const;
+
+	Snake& getSnake() { return m_snake; }
 	void moveSnake(int direction);
-	const std::vector<std::shared_ptr<Entity>>& getEntities() const { return m_Board; }
-	std::shared_ptr<Fruit> spawnFruit();
-	std::shared_ptr<Entity> getEntityAt(int index) const
-	{
-		return m_Board[index];
-	}
-	int getSnakeSegmentOrder(int index) const;
+	int getSnakeSegmentOrder(int index);
+
+	Fruit const& spawnFruit();
 
 private:
 	static int m_BoardSize;
-	std::vector<std::shared_ptr<Entity>>m_Board;
+
+	Snake m_snake;
+	Fruit m_fruit;
+
+	enum class Entity {
+		none,
+		snake,
+		fruit,
+	};
+	std::vector<Entity> m_Board;
 };
 
 } // namespace snake

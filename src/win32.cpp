@@ -56,16 +56,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CREATE:
 	{
-		auto speed = board->getSnake()->getSpeed();
+		auto speed = board->getSnake().getSpeed();
 		SetTimer(hwnd, TIMER_ID, UINT(50 - speed), NULL); // todo: round?
 	}
 		return 0;
 
 	case WM_KEYDOWN:
 	{
-		auto snake = board->getSnake();
-
-		int desiredDirection = snake->getCurrentDirection();
+		auto& snake = board->getSnake();
+		int desiredDirection = snake.getCurrentDirection();
 
 		switch (wParam)
 		{
@@ -82,20 +81,20 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 #endif
 		}
 
-		if (!snake->isOpposite(snake->getNextDirection(), desiredDirection))
+		if (!snake.isOpposite(snake.getNextDirection(), desiredDirection))
 		{
-			snake->setNextDirection(desiredDirection);
+			snake.setNextDirection(desiredDirection);
 		}
 	}
 		return 0;
 
 	case WM_TIMER:
 	{
-		auto snake = board->getSnake();
-		if (snake->getAlive())
+		auto& snake = board->getSnake();
+		if (snake.getAlive())
 		{
-			board->moveSnake(snake->getNextDirection());
-			snake->setCurrentDirection(snake->getNextDirection());
+			board->moveSnake(snake.getNextDirection());
+			snake.setCurrentDirection(snake.getNextDirection());
 
 			InvalidateRect(hwnd, NULL, TRUE);
 		}
@@ -155,13 +154,13 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 			};
 
 			int index = row * Board::getBoardSize() + col;
-			std::shared_ptr<Entity> entity = board->getEntityAt(index);
+			Entity const& entity = board->getEntityAt(index);
 
 			HBRUSH brush = nullptr;
-			if (std::dynamic_pointer_cast<Snake>(entity))
+			if (dynamic_cast<Snake const*>(&entity))
 			{
 				int segmentOrder = board->getSnakeSegmentOrder(index);
-				int snakeLength = int(board->getSnake()->getBody().size());
+				int snakeLength = int(board->getSnake().getBody().size());
 
 				if (segmentOrder != -1 && snakeLength > 1)
 				{
@@ -180,7 +179,7 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 					brush = CreateSolidBrush(RGB(0, 0, 255)); //bleu si ça bug
 				}
 			}
-			else if (std::dynamic_pointer_cast<Fruit>(entity))
+			else if (dynamic_cast<Fruit const*>(&entity))
 			{
 				brush = CreateSolidBrush(RGB(255, 0, 0));
 			}

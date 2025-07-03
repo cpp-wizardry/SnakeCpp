@@ -27,7 +27,7 @@ public:
 	
 	void removeSpeed(float speed);
 
-	float getSpeed() { return m_Speed; };
+	float getSpeed() const { return m_Speed; };
 	
 	void move(int direction);
 	
@@ -40,14 +40,14 @@ public:
 	void addScore(int score) { this->m_Score += score; };
 	
 	int getScore() { return m_Score; };
-	std::vector<int> getBody() { return m_Body; };
+	std::vector<int> getBody() const { return m_Body; };
 	int wrap(int value, int max);
 	bool getAlive() { return isAlive; };
 	void setCurrentDirection(int direction) {this->m_currentDirection = direction;};
-	int getCurrentDirection() { return m_currentDirection; };
+	int getCurrentDirection() const { return m_currentDirection; };
 	void setNextDirection(int nextDirection) {this->m_nextDirection = nextDirection; };
-	int getNextDirection() { return m_nextDirection; };
-	bool isOpposite(int dir1, int dir2) {
+	int getNextDirection() const { return m_nextDirection; };
+	bool isOpposite(int dir1, int dir2) const {
 		return (dir1 == 1 && dir2 == 3) || (dir1 == 3 && dir2 == 1) ||
 			(dir1 == 2 && dir2 == 4) || (dir1 == 4 && dir2 == 2);
 	}

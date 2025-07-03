@@ -7,105 +7,89 @@
 namespace snake {
 
 int Board::m_BoardSize = 16;
-std::random_device rd;
-std::mt19937 gen(rd());
 
-Board::Board()
-{
-	for (int x = 0; x < m_BoardSize; x++)
-	{
-		for (int y = 0; y < m_BoardSize; y++)
-		{
-			int current = x * 16 + y;
-
-			if (current == (m_BoardSize * m_BoardSize) / 2)
-			{
-				m_Board.push_back(std::make_shared<Snake>(5.0f, 1, 150));
-			}
-			else
-			{
-				m_Board.push_back(std::make_shared<Point>(y, x));
-			}
-		}
-	}
+namespace {
+	std::random_device rd;
+	std::mt19937 gen(rd());
 }
 
-std::shared_ptr<Snake> Board::getSnake() const
+Board::Board()
+	: m_snake(5.0f, 1, 150)
+	, m_fruit(0)
+	, m_Board(m_BoardSize * m_BoardSize)
 {
-	for (auto& entity : m_Board)
-	{
-		std::shared_ptr<Snake> snake = std::dynamic_pointer_cast<Snake>(entity);
-		if (snake != nullptr)
-		{
-			return snake;
-		}
+	m_Board[m_snake.getPosition()] = Entity::snake;
+	spawnFruit();
+}
+
+Entity const& Board::getEntityAt(int index) const
+{
+	static Point pt {0, 0};
+
+	switch (m_Board[index]) {
+	case Entity::none: pt.setPosition(index); return pt;
+	case Entity::snake: return m_snake;
+	case Entity::fruit: return m_fruit;
 	}
-	return nullptr;
+	SNAKE_UNREACHABLE;
 }
 
 void Board::moveSnake(int direction)
 {
-	std::shared_ptr<Snake> snake = getSnake();
-	if (!snake) return;
+	std::vector<int> oldBody = m_snake.getBody();
 
-	std::vector<int> oldBody = snake->getBody(); 
+	m_snake.move(direction);
 
-	snake->move(direction);
+	int newHeadPosition = m_snake.getPosition();
 
-	int newHeadPosition = snake->getPosition();
-
-	if (std::dynamic_pointer_cast<Fruit>(m_Board[newHeadPosition]))
+	if (newHeadPosition == m_fruit.getPosition())
 	{
-		auto fruit = spawnFruit();
-		snake->addSegment(1);
-		snake->addScore(fruit->getPoints());
+		spawnFruit();
+		m_snake.addSegment(1);
+		m_snake.addScore(m_fruit.getPoints());
 	}
 
 	for (int pos : oldBody)
 	{
-		int oldY = pos / m_BoardSize;
-		int oldX = pos % m_BoardSize;
-		m_Board[pos] = std::make_shared<Point>(oldX, oldY);
+		m_Board[pos] = Entity::none;
 	}
 
-	for (int pos : snake->getBody())
+	for (int pos : m_snake.getBody())
 	{
-		m_Board[pos] = snake;
+		m_Board[pos] = Entity::snake;
 	}
 }
 
-std::shared_ptr<Fruit> Board::spawnFruit()
+int Board::getSnakeSegmentOrder(int index)
+{
+	const auto& body = getSnake().getBody(); 
+	for (size_t i = 0; i < body.size(); ++i) {
+		if (body[i] == index)
+			return static_cast<int>(i); 
+	}
+	return -1;
+}
+
+Fruit const& Board::spawnFruit()
 {
 	std::vector<int> emptyPositions;
 	for (int i = 0; i < int(m_Board.size()); i++)
 	{
-		if (std::dynamic_pointer_cast<Point>(m_Board[i]))
+		if (m_Board[i] == Entity::none)
 		{
 			emptyPositions.push_back(i);
 		}
 	}
 
-	if (emptyPositions.empty()) return nullptr; 
+	assert(!emptyPositions.empty()); // todo: win?
 
 	std::uniform_int_distribution<> distrib(0, int(emptyPositions.size()) - 1);
 
 	int chosenIndex = emptyPositions[distrib(gen)];
 
-	m_Board[chosenIndex] = std::make_shared<Fruit>(chosenIndex);
-	return std::dynamic_pointer_cast<Fruit>(m_Board[chosenIndex]);
-}
-
-int Board::getSnakeSegmentOrder(int index) const
-{
-	auto snake = getSnake(); 
-
-	const auto& body = snake->getBody(); 
-
-	for (size_t i = 0; i < body.size(); ++i) {
-		if (body[i] == index)
-			return static_cast<int>(i); 
-	}
-	return -1; 
+	m_fruit.setPosition(chosenIndex);
+	m_Board[chosenIndex] = Entity::fruit;
+	return m_fruit;
 }
 
 } // namespace snake

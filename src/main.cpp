@@ -11,14 +11,6 @@ int WINAPI wWinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, PWSTR 
 		return 1;
 	}
 
-	std::shared_ptr<snake::Snake> snake = board.getSnake();
-	if (!snake)
-	{
-		return 1;
-	}
-
-	board.spawnFruit();
-
 	MSG msg = {};
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
