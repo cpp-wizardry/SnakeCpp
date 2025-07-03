@@ -6,66 +6,61 @@
 
 namespace snake {
 
-int Board::m_BoardSize = 16;
-
 namespace {
 	std::random_device rd;
 	std::mt19937 gen(rd());
 }
 
 Board::Board()
-	: m_snake(5.0f, 1, 150)
-	, m_fruit(0)
-	, m_Board(m_BoardSize * m_BoardSize)
+	: m_snake(5.0f, 1, Index{150})
+	, m_fruit(Index{0})
+	, m_board(boardSize * boardSize)
 {
-	m_Board[m_snake.getPosition()] = Entity::snake;
+	m_board[m_snake.getPosition().idx] = Entity::Kind::snake;
 	spawnFruit();
 }
 
-void Board::moveSnake(int direction)
+void Board::moveSnake(Direction direction)
 {
-	std::vector<int> oldBody = m_snake.getBody();
+	auto oldBody = m_snake.getBody();
 
 	m_snake.move(direction);
-
-	int newHeadPosition = m_snake.getPosition();
-
-	if (newHeadPosition == m_fruit.getPosition())
+	if (m_snake.getPosition() == m_fruit.pos)
 	{
 		spawnFruit();
 		m_snake.addSegment(1);
-		m_snake.addScore(m_fruit.getPoints());
+		m_snake.addScore(m_fruit.points);
 	}
 
-	for (int pos : oldBody)
+	for (auto pos : oldBody)
 	{
-		m_Board[pos] = Entity::none;
+		m_board[pos.idx] = Entity::Kind::none;
 	}
 
-	for (int pos : m_snake.getBody())
+	for (auto pos : m_snake.getBody())
 	{
-		m_Board[pos] = Entity::snake;
+		m_board[pos.idx] = Entity::Kind::snake;
 	}
 }
 
-int Board::getSnakeSegmentOrder(int index)
+int Board::getSnakeSegmentOrder(Index index)
 {
 	const auto& body = getSnake().getBody(); 
 	for (size_t i = 0; i < body.size(); ++i) {
 		if (body[i] == index)
-			return static_cast<int>(i); 
+			return static_cast<int>(i);
 	}
 	return -1;
 }
 
-Fruit const& Board::spawnFruit()
+void Board::spawnFruit()
 {
-	std::vector<int> emptyPositions;
-	for (int i = 0; i < int(m_Board.size()); i++)
+	std::vector<Index> emptyPositions;
+	for (int i = 0; i < int(m_board.size()); i++)
 	{
-		if (m_Board[i] == Entity::none)
+		if (m_board[i] == Entity::Kind::none)
 		{
-			emptyPositions.push_back(i);
+			emptyPositions.push_back(Index{i});
 		}
 	}
 
@@ -73,11 +68,8 @@ Fruit const& Board::spawnFruit()
 
 	std::uniform_int_distribution<> distrib(0, int(emptyPositions.size()) - 1);
 
-	int chosenIndex = emptyPositions[distrib(gen)];
-
-	m_fruit.setPosition(chosenIndex);
-	m_Board[chosenIndex] = Entity::fruit;
-	return m_fruit;
+	m_fruit.pos = emptyPositions[distrib(gen)];
+	m_board[m_fruit.pos.idx] = Entity::Kind::fruit;
 }
 
 } // namespace snake

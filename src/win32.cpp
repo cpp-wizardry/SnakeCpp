@@ -64,24 +64,24 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 	{
 		auto& snake = board->getSnake();
-		int desiredDirection = snake.getCurrentDirection();
+		auto desiredDirection = snake.getCurrentDirection();
 
 		switch (wParam)
 		{
 #ifdef SNAKE_USE_CURSOR_KEYS
-		case VK_LEFT : desiredDirection = 1; break;
-		case VK_UP   : desiredDirection = 2; break;
-		case VK_RIGHT: desiredDirection = 3; break;
-		case VK_DOWN : desiredDirection = 4; break;
+		case VK_LEFT : desiredDirection = Direction::left ; break;
+		case VK_UP   : desiredDirection = Direction::up   ; break;
+		case VK_RIGHT: desiredDirection = Direction::right; break;
+		case VK_DOWN : desiredDirection = Direction::down ; break;
 #else
-		case 'Q': desiredDirection = 1; break;
-		case 'Z': desiredDirection = 2; break;
-		case 'D': desiredDirection = 3; break;
-		case 'S': desiredDirection = 4; break;
+		case 'Q': desiredDirection = Direction::left ; break;
+		case 'Z': desiredDirection = Direction::up   ; break;
+		case 'D': desiredDirection = Direction::right; break;
+		case 'S': desiredDirection = Direction::down ; break;
 #endif
 		}
 
-		if (!snake.isOpposite(snake.getNextDirection(), desiredDirection))
+		if (!isOpposite(snake.getNextDirection(), desiredDirection))
 		{
 			snake.setNextDirection(desiredDirection);
 		}
@@ -139,12 +139,12 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 	RECT clientRect;
 	GetClientRect(hwnd, &clientRect);
 
-	int squareWidth = clientRect.right / Board::getBoardSize();
-	int squareHeight = clientRect.bottom / Board::getBoardSize();
+	int squareWidth = clientRect.right / boardSize;
+	int squareHeight = clientRect.bottom / boardSize;
 
-	for (int row = 0; row < Board::getBoardSize(); ++row)
+	for (int row = 0; row < boardSize; ++row)
 	{
-		for (int col = 0; col < Board::getBoardSize(); ++col)
+		for (int col = 0; col < boardSize; ++col)
 		{
 			RECT square = {
 				col * squareWidth,
@@ -153,11 +153,11 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 				(row + 1) * squareHeight
 			};
 
-			int index = row * Board::getBoardSize() + col;
+			Index index { col, row };
 			auto entity = board->getEntityAt(index);
 
 			HBRUSH brush = nullptr;
-			if (entity == Board::Entity::snake)
+			if (entity == Entity::Kind::snake)
 			{
 				int segmentOrder = board->getSnakeSegmentOrder(index);
 				int snakeLength = int(board->getSnake().getBody().size());
@@ -179,7 +179,7 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 					brush = CreateSolidBrush(RGB(0, 0, 255)); //bleu si ça bug
 				}
 			}
-			else if (entity == Board::Entity::fruit)
+			else if (entity == Entity::Kind::fruit)
 			{
 				brush = CreateSolidBrush(RGB(255, 0, 0));
 			}

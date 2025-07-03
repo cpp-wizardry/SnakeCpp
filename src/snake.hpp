@@ -7,12 +7,12 @@ namespace snake {
 class Snake : public Entity
 {
 public:
-	Snake(float speed, int score, int startPosition)
-		: Entity(startPosition)
+	Snake(float speed, int score, Index pos)
+		: Entity(Kind::snake)
 		, m_Speed(speed)
 		, m_Score(score)
 	{
-		m_Body.push_back(startPosition);
+		m_Body.push_back(pos);
 	}
 
 	void addSegment(int count)
@@ -24,31 +24,25 @@ public:
 	}
 
 	void addSpeed(float speed);
-	
 	void removeSpeed(float speed);
+	float getSpeed() const { return m_Speed; }
+	
+	void move(Direction direction);
+	Index getPosition() const { return m_Body[0]; }
+	
+	void addScore(int score) { this->m_Score += score; }
+	int getScore() { return m_Score; }
 
-	float getSpeed() const { return m_Speed; };
-	
-	void move(int direction);
-	
-	void setPosition(int pos) { position = pos; };
-	
-	int getPosition() const { return m_Body[0]; }
-	
-	void addScore(int score) { this->m_Score += score; };
-	
-	int getScore() { return m_Score; };
-	std::vector<int> getBody() const { return m_Body; };
+	std::vector<Index> getBody() const { return m_Body; }
+
 	int wrap(int value, int max);
-	bool getAlive() { return isAlive; };
-	void setCurrentDirection(int direction) {this->m_currentDirection = direction;};
-	int getCurrentDirection() const { return m_currentDirection; };
-	void setNextDirection(int nextDirection) {this->m_nextDirection = nextDirection; };
-	int getNextDirection() const { return m_nextDirection; };
-	bool isOpposite(int dir1, int dir2) const {
-		return (dir1 == 1 && dir2 == 3) || (dir1 == 3 && dir2 == 1) ||
-			(dir1 == 2 && dir2 == 4) || (dir1 == 4 && dir2 == 2);
-	}
+
+	bool getAlive() { return isAlive; }
+
+	void setCurrentDirection(Direction direction) { this->m_currentDirection = direction; }
+	Direction getCurrentDirection() const { return m_currentDirection; }
+	void setNextDirection(Direction nextDirection) { this->m_nextDirection = nextDirection; }
+	Direction getNextDirection() const { return m_nextDirection; }
 
 	bool canChangeDirection = true;
 
@@ -58,11 +52,11 @@ private:
 	int position;
 	const int _OFFSET = 16;
 	int m_Score = 0;
-	int m_currentDirection = 1;
-	int m_nextDirection = 3;
+	Direction m_currentDirection = Direction::left;
+	Direction m_nextDirection = Direction::right;
 	bool isAlive = true;
 
-	std::vector<int> m_Body;
+	std::vector<Index> m_Body;
 };
 
 } // namespace snake

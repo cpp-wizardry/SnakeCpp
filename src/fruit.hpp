@@ -7,14 +7,13 @@ namespace snake {
 class Fruit : public Entity
 {
 public:
-	Fruit(int pos)
-		: Entity(pos)
+	Fruit(Index pos)
+		: Entity(Kind::fruit)
+		, pos(pos)
 	{
 	}
 
-	int getPoints() { return points; };
-
-private:
+	Index pos;
 	int points = 1000;
 };
 

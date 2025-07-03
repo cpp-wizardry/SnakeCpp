@@ -18,28 +18,25 @@ int Snake::wrap(int value, int max) {
 	return (value + max) % max;
 }
 
-void Snake::move(int direction)
+void Snake::move(Direction direction)
 {
 	//gros pavé pour check si le joueur fait demi tour direct*
 	//[TODO] rendre lisible et optimisé
 
 	direction = m_currentDirection; // on ignore si le joueur fait un 180°
-	int head = m_Body.front();
-	int row = head / 16;
-	int col = head % 16;
+	Pos p = m_Body.front();
 
 	switch (direction)
 	{
-	case 1: col--; break;
-	case 2: row--; break;
-	case 3: col++; break;
-	case 4: row++; break;
+	case Direction::left : p.x--; break;
+	case Direction::up   : p.y--; break;
+	case Direction::right: p.x++; break;
+	case Direction::down : p.y++; break;
 	}
 
-	row = wrap(row, 16);
-	col = wrap(col, 16);
+	p.wrap();
 
-	int newHead = row * 16 + col;
+	Index newHead = p;
 
 	// check la collision on skip la tete sinon probleme
 	for (size_t i = 1; i < m_Body.size(); ++i)
@@ -57,7 +54,6 @@ void Snake::move(int direction)
 	}
 
 	m_Body[0] = newHead;
-	Position = newHead;
 }
 
 } // namespace snake

@@ -8,32 +8,21 @@ namespace snake {
 class Board
 {
 public:
-	static int getBoardSize() { return m_BoardSize; };
-	static void setBoardSize(int Size) { m_BoardSize = Size; } // todo: this is broken
-
 	Board();
 
-	enum class Entity {
-		none,
-		snake,
-		fruit,
-	};
-
-	Entity const& getEntityAt(int index) const { return m_Board[index]; }
+	Entity::Kind getEntityAt(Index index) const { return m_board[index.idx]; }
 
 	Snake& getSnake() { return m_snake; }
-	void moveSnake(int direction);
-	int getSnakeSegmentOrder(int index);
+	void moveSnake(Direction direction);
+	int getSnakeSegmentOrder(Index index);
 
-	Fruit const& spawnFruit();
+	void spawnFruit();
 
 private:
-	static int m_BoardSize;
-
 	Snake m_snake;
 	Fruit m_fruit;
 
-	std::vector<Entity> m_Board;
+	std::vector<Entity::Kind> m_board;
 };
 
 } // namespace snake
