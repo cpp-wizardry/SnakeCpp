@@ -2,19 +2,22 @@
 
 #include <chrono>
 
-#include "fenetre.hpp"
+#include "board.hpp"
+#include "win32.hpp"
 
-#define TIMER_ID 1
+namespace snake::win32 {
 
-namespace snake {
+constexpr UINT_PTR TIMER_ID = 1;
 
-using namespace std::chrono;
+namespace {
+	Board* board = nullptr;
+	int frames = 0;
+	int fps = 0;
+	auto lastTime = std::chrono::steady_clock::now();
+	std::wstring fpsText;
+}
 
-namespace Fenetre {
-
-int frames = 0;
-int fps = 0;
-auto lastTime = steady_clock::now();
+void WNDRenderBoard(HWND hwnd, HDC hdc);
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -29,57 +32,54 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hwnd, &ps);
-			
-		Board* board = (Board*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		if (board)
-		{
-			WNDRenderBoard(hwnd, hdc, *board);
-			frames++;
 
-			auto currentTime = steady_clock::now();
-			auto elapsed = duration_cast<seconds>(currentTime - lastTime).count();
+		WNDRenderBoard(hwnd, hdc);
+		frames++;
 
-			if (elapsed >= 1) {
-				fps = frames;
-				frames = 0;
-				lastTime = currentTime;
+		auto currentTime = std::chrono::steady_clock::now();
+		auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(currentTime - lastTime).count();
 
-				std::wstring fpsText = L"FPS: " + std::to_wstring(fps);
-				std::wstring title = L"Snake - FPS: " + std::to_wstring(fps);
-				SetWindowText(hwnd, title.c_str());
-				TextOut(hdc, 10, 10, fpsText.c_str(), int(fpsText.length())); // todo: show every frame
-			}
+		if (elapsed >= 1) {
+			fps = frames;
+			frames = 0;
+			lastTime = currentTime;
+
+			fpsText = L"FPS: " + std::to_wstring(fps);
+			std::wstring title = L"Snake - FPS: " + std::to_wstring(fps);
+			SetWindowText(hwnd, title.c_str());
 		}
-		//HBRUSH CustomBrush = CreateSolidBrush(50);//def de la couleur du pinceau
-		//FillRect(hdc, &ps.rcPaint, CustomBrush);//application de la peinture sur le background
-		//DeleteObject(CustomBrush);//nettoyage du pinceau
+		TextOut(hdc, 10, 10, fpsText.c_str(), int(fpsText.length())); // todo: show every frame
 
 		EndPaint(hwnd, &ps);
 	}
-	break;
+		return 0;
+
 	case WM_CREATE:
 	{
-		LPCREATESTRUCT pcs = (LPCREATESTRUCT)lParam;
-		Board* board = (Board*)pcs->lpCreateParams;
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)board);
 		auto speed = board->getSnake()->getSpeed();
 		SetTimer(hwnd, TIMER_ID, UINT(50 - speed), NULL); // todo: round?
-
 	}
-	break;
+		return 0;
+
 	case WM_KEYDOWN:
 	{
-		Board* board = (Board*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		auto snake = board->getSnake();
 
 		int desiredDirection = snake->getCurrentDirection();
 
 		switch (wParam)
 		{
+#ifdef SNAKE_USE_CURSOR_KEYS
+		case VK_LEFT : desiredDirection = 1; break;
+		case VK_UP   : desiredDirection = 2; break;
+		case VK_RIGHT: desiredDirection = 3; break;
+		case VK_DOWN : desiredDirection = 4; break;
+#else
 		case 'Q': desiredDirection = 1; break;
 		case 'Z': desiredDirection = 2; break;
 		case 'D': desiredDirection = 3; break;
 		case 'S': desiredDirection = 4; break;
+#endif
 		}
 
 		if (!snake->isOpposite(snake->getNextDirection(), desiredDirection))
@@ -87,40 +87,37 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			snake->setNextDirection(desiredDirection);
 		}
 	}
-	break;
+		return 0;
 
 	case WM_TIMER:
 	{
-		Board* board = (Board*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		if (board)
+		auto snake = board->getSnake();
+		if (snake->getAlive())
 		{
-			auto snake = board->getSnake();
-			if (snake->getAlive())
-			{
-				board->moveSnake(snake->getNextDirection());
+			board->moveSnake(snake->getNextDirection());
+			snake->setCurrentDirection(snake->getNextDirection());
 
-				snake->setCurrentDirection(snake->getNextDirection());
-
-				InvalidateRect(hwnd, NULL, TRUE);
-			}
-			else
-			{
-				KillTimer(hwnd, TIMER_ID);
-			}
+			InvalidateRect(hwnd, NULL, TRUE);
+		}
+		else
+		{
+			KillTimer(hwnd, TIMER_ID);
 		}
 	}
-	break;
+		return 0;
 
 	}
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-HWND CreateMainWindow(Board *board)
+HWND CreateMainWindow(Board& board_)
 {
+	board = &board_;
+
 	const wchar_t CLASS_NAME[] = L"SnakeWindow";
 
 	WNDCLASS wc = {};
-	wc.lpfnWndProc = Fenetre::WindowProc;
+	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = GetModuleHandle(NULL);
 	wc.lpszClassName = CLASS_NAME;
 
@@ -128,7 +125,7 @@ HWND CreateMainWindow(Board *board)
 
 	HWND hwnd = CreateWindowEx(
 		0, CLASS_NAME, L"Snake", WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, NULL, NULL, GetModuleHandle(NULL), board
+		CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, NULL, NULL, GetModuleHandle(NULL), NULL
 	);
 
 	if (hwnd != NULL) {
@@ -138,7 +135,7 @@ HWND CreateMainWindow(Board *board)
 	return hwnd;
 }
 
-void Fenetre::WNDRenderBoard(HWND hwnd, HDC hdc, const Board& board)
+void WNDRenderBoard(HWND hwnd, HDC hdc)
 {
 	RECT clientRect;
 	GetClientRect(hwnd, &clientRect);
@@ -158,14 +155,13 @@ void Fenetre::WNDRenderBoard(HWND hwnd, HDC hdc, const Board& board)
 			};
 
 			int index = row * Board::getBoardSize() + col;
-			std::shared_ptr<Entity> entity = board.getEntityAt(index);
-
+			std::shared_ptr<Entity> entity = board->getEntityAt(index);
 
 			HBRUSH brush = nullptr;
 			if (std::dynamic_pointer_cast<Snake>(entity))
 			{
-				int segmentOrder = board.getSnakeSegmentOrder(index);
-				int snakeLength = int(board.getSnake()->getBody().size());
+				int segmentOrder = board->getSnakeSegmentOrder(index);
+				int snakeLength = int(board->getSnake()->getBody().size());
 
 				if (segmentOrder != -1 && snakeLength > 1)
 				{
@@ -197,8 +193,7 @@ void Fenetre::WNDRenderBoard(HWND hwnd, HDC hdc, const Board& board)
 			DeleteObject(brush);
 			SetBkMode(hdc, TRANSPARENT);
 
-
-			int segmentOrder = board.getSnakeSegmentOrder(index);
+			int segmentOrder = board->getSnakeSegmentOrder(index);
 			if (segmentOrder != -1) {
 				std::wstring text = std::to_wstring(segmentOrder);
 				DrawText(hdc, text.c_str(), -1, &square, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -207,6 +202,4 @@ void Fenetre::WNDRenderBoard(HWND hwnd, HDC hdc, const Board& board)
 	}
 }
 
-}
-
-} // namespace snake
+} // namespace snake::win32

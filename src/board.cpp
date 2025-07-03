@@ -35,9 +35,9 @@ std::shared_ptr<Snake> Board::getSnake() const
 	for (auto& entity : m_Board)
 	{
 		std::shared_ptr<Snake> snake = std::dynamic_pointer_cast<Snake>(entity);
-		if (snake != nullptr)   
+		if (snake != nullptr)
 		{
-			return snake; 
+			return snake;
 		}
 	}
 	return nullptr;

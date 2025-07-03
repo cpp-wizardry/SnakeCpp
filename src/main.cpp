@@ -1,13 +1,12 @@
 #include "stdafx.h"
 
 #include "board.hpp"
-#include "fenetre.hpp"
+#include "win32.hpp"
 
 int WINAPI wWinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, PWSTR /*pCmdLine*/, int /*nCmdShow*/)
 {
 	snake::Board board;
-
-	if (snake::Fenetre::CreateMainWindow(&board) == NULL)
+	if (snake::win32::CreateMainWindow(board) == NULL)
 	{
 		return 1;
 	}
