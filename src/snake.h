@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "entity.h"
 
+namespace snake {
+
 class Snake : public Entity
 {
 public:
@@ -69,3 +71,5 @@ private:
 	std::vector<int> m_Body;//liste des segments du serpent
 	friend std::ostream& operator<<(std::ostream& os, const Snake& snake);
 };
+
+} // namespace snake

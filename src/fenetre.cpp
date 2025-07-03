@@ -2,6 +2,8 @@
 #include <chrono>
 #define TIMER_ID 1
 
+namespace snake {
+
 using namespace std::chrono;
 
 namespace Fenetre {
@@ -205,3 +207,5 @@ void Fenetre::WNDRenderBoard(HWND hwnd, HDC hdc, const Board& board)
 }
 
 }
+
+} // namespace snake

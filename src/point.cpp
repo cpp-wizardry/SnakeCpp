@@ -1,5 +1,7 @@
 #include "point.h"
 
+namespace snake {
+
 Point::Point(int x, int y)
 {
 	this->x = x;
@@ -13,3 +15,5 @@ std::ostream& operator<<(std::ostream& os, const Point& /*point*/)
 	os << 'o';
 	return os;
 }
+
+} // namespace snake

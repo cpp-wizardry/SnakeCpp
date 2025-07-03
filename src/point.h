@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "entity.h"
 
+namespace snake {
+
 class Point : public Entity
 {
 public:
@@ -21,3 +23,5 @@ private:
 
 	friend std::ostream& operator<<(std::ostream& os, const Point& point);
 };
+
+} // namespace snake

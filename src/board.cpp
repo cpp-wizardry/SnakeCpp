@@ -2,6 +2,8 @@
 #include "snake.h"
 #include "fruit.h"
 
+namespace snake {
+
 int Board::m_BoardSize = 16;
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -121,3 +123,5 @@ int Board::getSnakeSegmentOrder(int index) const
 	}
 	return -1; 
 }
+
+} // namespace snake

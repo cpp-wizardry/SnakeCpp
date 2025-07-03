@@ -3,13 +3,12 @@
 #include <conio.h>
 #include "fenetre.h"
 
-
 int main() {
-	Board board;
+	snake::Board board;
 
-	Fenetre::CreateMainWindow(&board);
+	snake::Fenetre::CreateMainWindow(&board);
 
-	std::shared_ptr<Snake> snake = board.getSnake();
+	std::shared_ptr<snake::Snake> snake = board.getSnake();
 	if (!snake)
 	{
 		std::cout << "debug: snake pas trouvé\n\r";

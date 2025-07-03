@@ -2,6 +2,8 @@
 #include "entity.h"
 #include "stdafx.h"
 
+namespace snake {
+
 class Fruit : public Entity
 {
 public:
@@ -15,3 +17,5 @@ public:
 private:
 	int points = 1000;
 };
+
+} // namespace snake

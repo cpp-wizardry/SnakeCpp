@@ -4,6 +4,8 @@
 #include "snake.h"
 #include "fruit.h"
 
+namespace snake {
+
 class Board
 {
 public:
@@ -26,3 +28,5 @@ private:
 	std::vector<std::shared_ptr<Entity>>m_Board;
 	static int m_BoardSize;
 };
+
+} // namespace snake

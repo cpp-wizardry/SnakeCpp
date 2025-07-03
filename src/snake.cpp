@@ -1,5 +1,7 @@
 #include "snake.h"
 
+namespace snake {
+
 void Snake::addSpeed(float speed)
 {
 	m_Speed += speed;
@@ -58,8 +60,10 @@ void Snake::move(int direction)
 
 }
 
-std::ostream& operator<<(std::ostream& os, const Snake& snake)
+std::ostream& operator<<(std::ostream& os, const Snake& /*snake*/)
 {
 	os << "~";
 	return os;
 }
+
+} // namespace snake

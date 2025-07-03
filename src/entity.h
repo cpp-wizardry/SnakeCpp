@@ -1,6 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
+namespace snake {
+
 class Entity
 {
 public:
@@ -14,3 +16,5 @@ public:
 protected:
 	int Position; 
 };
+
+} // namespace snake
