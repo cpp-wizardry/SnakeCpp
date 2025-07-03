@@ -1,4 +1,4 @@
-#include "snake.h"
+#include "snake.hpp"
 
 namespace snake {
 

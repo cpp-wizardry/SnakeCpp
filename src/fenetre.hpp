@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
-#include "board.h"
-#include "fruit.h"
+#include "board.hpp"
+#include "fruit.hpp"
 
 namespace snake::Fenetre {
 

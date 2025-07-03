@@ -1,8 +1,8 @@
 #pragma once
-#include "point.h"
+#include "point.hpp"
 #include "stdafx.h"
-#include "snake.h"
-#include "fruit.h"
+#include "snake.hpp"
+#include "fruit.hpp"
 
 namespace snake {
 

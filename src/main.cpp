@@ -1,7 +1,7 @@
-#include "board.h"
+#include "board.hpp"
 #include "stdafx.h"
 #include <conio.h>
-#include "fenetre.h"
+#include "fenetre.hpp"
 
 int main() {
 	snake::Board board;

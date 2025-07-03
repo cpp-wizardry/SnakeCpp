@@ -148,12 +148,12 @@
     <ClCompile Include="..\src\snake.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\board.h" />
-    <ClInclude Include="..\src\entity.h" />
-    <ClInclude Include="..\src\fenetre.h" />
-    <ClInclude Include="..\src\fruit.h" />
-    <ClInclude Include="..\src\point.h" />
-    <ClInclude Include="..\src\snake.h" />
+    <ClInclude Include="..\src\board.hpp" />
+    <ClInclude Include="..\src\entity.hpp" />
+    <ClInclude Include="..\src\fenetre.hpp" />
+    <ClInclude Include="..\src\fruit.hpp" />
+    <ClInclude Include="..\src\point.hpp" />
+    <ClInclude Include="..\src\snake.hpp" />
     <ClInclude Include="..\src\stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

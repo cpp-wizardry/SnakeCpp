@@ -1,5 +1,5 @@
 #pragma once
-#include "entity.h"
+#include "entity.hpp"
 #include "stdafx.h"
 
 namespace snake {

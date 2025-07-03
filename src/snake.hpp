@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-#include "entity.h"
+#include "entity.hpp"
 
 namespace snake {
 

@@ -1,6 +1,6 @@
-#include "board.h"
-#include "snake.h"
-#include "fruit.h"
+#include "board.hpp"
+#include "snake.hpp"
+#include "fruit.hpp"
 
 namespace snake {
 

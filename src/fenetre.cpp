@@ -1,4 +1,4 @@
-#include "fenetre.h"
+#include "fenetre.hpp"
 #include <chrono>
 #define TIMER_ID 1
 

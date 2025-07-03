@@ -23,22 +23,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\board.h">
+    <ClInclude Include="..\src\board.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\entity.h">
+    <ClInclude Include="..\src\entity.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\fenetre.h">
+    <ClInclude Include="..\src\fenetre.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\fruit.h">
+    <ClInclude Include="..\src\fruit.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\point.h">
+    <ClInclude Include="..\src\point.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\snake.h">
+    <ClInclude Include="..\src\snake.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\src\stdafx.h">
