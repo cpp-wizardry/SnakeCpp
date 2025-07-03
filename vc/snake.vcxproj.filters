@@ -38,8 +38,5 @@
     <ClInclude Include="..\src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\util.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

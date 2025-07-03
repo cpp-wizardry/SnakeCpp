@@ -10,8 +10,6 @@ class Board
 public:
 	Board();
 
-	Entity::Kind getEntityAt(Index index) const { return board[index.idx]; }
-
 	void moveSnake();
 	void spawnFruit();
 

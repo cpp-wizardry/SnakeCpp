@@ -128,65 +128,63 @@ void WNDRenderBoard(HWND hwnd, HDC hdc)
 	RECT clientRect;
 	GetClientRect(hwnd, &clientRect);
 
-	int squareWidth = clientRect.right / boardSize;
-	int squareHeight = clientRect.bottom / boardSize;
+	int const squareWidth = clientRect.right / boardSize;
+	int const squareHeight = clientRect.bottom / boardSize;
 
-	for (int row = 0; row < boardSize; ++row)
+	// assume mostly empty and accept larger overdraw as snake grows
 	{
-		for (int col = 0; col < boardSize; ++col)
+		auto const brush = CreateSolidBrush(RGB(0, 255, 0));
+		FillRect(hdc, &clientRect, brush);
+		DeleteObject(brush);
+	}
+
+	// fruit
+	{
+		auto const brush = CreateSolidBrush(RGB(255, 0, 0));
+		Pos const p = board->fruit.pos;
+		RECT r = {
+			p.x * squareWidth,
+			p.y * squareHeight,
+			(p.x + 1) * squareWidth,
+			(p.y + 1) * squareHeight
+		};
+		FillRect(hdc, &r, brush);
+		DeleteObject(brush);
+	}
+
+	// snake
+	for (int i = 0, len = board->snake.size(); i < len; ++i) {
+		HBRUSH brush = nullptr;
+		if (len > 1)
 		{
-			RECT square = {
-				col * squareWidth,
-				row * squareHeight,
-				(col + 1) * squareWidth,
-				(row + 1) * squareHeight
-			};
+			float const ratio = static_cast<float>(i) / (len - 1);
+			int const brightness = static_cast<int>(ratio * 200); 
 
-			Index index { col, row };
-			auto entity = board->getEntityAt(index);
+			int const red = brightness;
+			int const green = brightness;
+			int const blue = 255;
 
-			HBRUSH brush = nullptr;
-			if (entity == Entity::Kind::snake)
-			{
-				int segmentOrder = board->snake.getSnakeSegmentOrder(index);
-				int snakeLength = board->snake.size();
-
-				if (segmentOrder != -1 && snakeLength > 1)
-				{
-					float ratio = static_cast<float>(segmentOrder) / (snakeLength - 1);
-
-					int brightness = static_cast<int>(ratio * 200); 
-
-					int red = brightness;
-					int green = brightness;
-					int blue = 255;
-
-					brush = CreateSolidBrush(RGB(red, green, blue));
-				}
-				else
-				{
-					brush = CreateSolidBrush(RGB(0, 0, 255));
-				}
-			}
-			else if (entity == Entity::Kind::fruit)
-			{
-				brush = CreateSolidBrush(RGB(255, 0, 0));
-			}
-			else
-			{
-				brush = CreateSolidBrush(RGB(0, 255, 0));
-			}
-
-			FillRect(hdc, &square, brush);
-			DeleteObject(brush);
-			SetBkMode(hdc, TRANSPARENT);
-
-			int segmentOrder = board->snake.getSnakeSegmentOrder(index);
-			if (segmentOrder != -1) {
-				std::wstring text = std::to_wstring(segmentOrder);
-				DrawText(hdc, text.c_str(), -1, &square, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-			}
+			brush = CreateSolidBrush(RGB(red, green, blue));
 		}
+		else
+		{
+			brush = CreateSolidBrush(RGB(0, 0, 255));
+		}
+
+		Pos const p = board->snake.body[i];
+		RECT square = {
+			p.x * squareWidth,
+			p.y * squareHeight,
+			(p.x + 1) * squareWidth,
+			(p.y + 1) * squareHeight
+		};
+
+		FillRect(hdc, &square, brush);
+		DeleteObject(brush);
+
+		std::wstring text = std::to_wstring(i);
+		SetBkMode(hdc, TRANSPARENT);
+		DrawText(hdc, text.c_str(), -1, &square, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	}
 }
 

@@ -39,12 +39,11 @@ enum class Direction {
 	down,
 };
 
-constexpr bool isOpposite(Direction dir1, Direction dir2) noexcept
+constexpr bool isOpposite(Direction a, Direction b) noexcept
 {
-	return (dir1 == Direction::left  && dir2 == Direction::right)
-		|| (dir1 == Direction::right && dir2 == Direction::left )
-		|| (dir1 == Direction::up    && dir2 == Direction::down )
-		|| (dir1 == Direction::down  && dir2 == Direction::up   );
+	unsigned const aa = unsigned(a) & 0b1;
+	unsigned const bb = unsigned(b) & 0b1;
+	return aa == bb;
 }
 
 class Entity

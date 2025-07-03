@@ -21,15 +21,6 @@ public:
 	Index head() const { return body[0]; }
 	int size() const { return int(body.size()); }
 
-	int getSnakeSegmentOrder(Index index) const
-	{
-		for (size_t i = 0; i < body.size(); ++i) {
-			if (body[i] == index)
-				return static_cast<int>(i);
-		}
-		return -1;
-	}
-
 	float speed = 1.0f;
 	int score = 0;
 

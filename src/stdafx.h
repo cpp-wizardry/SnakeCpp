@@ -13,5 +13,3 @@
 #include <vector>
 #include <random>
 #include <string>
-
-#include "util.hpp"
