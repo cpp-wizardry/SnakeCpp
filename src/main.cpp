@@ -1,6 +1,6 @@
-#include "board.hpp"
 #include "stdafx.h"
-#include <conio.h>
+
+#include "board.hpp"
 #include "fenetre.hpp"
 
 int main() {

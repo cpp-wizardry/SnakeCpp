@@ -1,6 +1,8 @@
+#include "stdafx.h"
+
 #include "board.hpp"
-#include "snake.hpp"
 #include "fruit.hpp"
+#include "snake.hpp"
 
 namespace snake {
 

@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "snake.hpp"
 
 namespace snake {

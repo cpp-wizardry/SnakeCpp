@@ -1,5 +1,9 @@
-#include "fenetre.hpp"
+#include "stdafx.h"
+
 #include <chrono>
+
+#include "fenetre.hpp"
+
 #define TIMER_ID 1
 
 namespace snake {
