@@ -16,8 +16,9 @@ void Snake::grow(int count)
 
 void Snake::move()
 {
-	Pos p = head();
+	bodyPrev = body;
 
+	Pos p = head();
 	switch (direction)
 	{
 	case Direction::left : p.x--; break;

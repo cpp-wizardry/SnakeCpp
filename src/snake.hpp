@@ -11,14 +11,15 @@ public:
 		: Entity(Kind::snake)
 		, speed(speed)
 		, score(score)
+		, body{ pos }
 	{
-		body.push_back(pos);
 	}
 
 	void grow(int count = 1);
 	void move();
 
-	Index head() const { return body[0]; }
+	Index head() const { return body.front(); }
+	Index last() const { return body.back(); }
 	int size() const { return int(body.size()); }
 
 	float speed = 1.0f;
@@ -27,6 +28,7 @@ public:
 	Direction direction = Direction::right;
 
 	std::vector<Index> body;
+	std::vector<Index> bodyPrev;
 };
 
 } // namespace snake

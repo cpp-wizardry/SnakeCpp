@@ -24,7 +24,7 @@ Board::Board()
 
 void Board::moveSnake()
 {
-	auto last = snake.body.back();
+	auto last = snake.last();
 
 	snake.move();
 	if (snake.head() == fruit.pos)
@@ -35,8 +35,8 @@ void Board::moveSnake()
 	}
 
 	board[last.idx] = Entity::Kind::none;
-	board[snake.body.back ().idx] = Entity::Kind::snake; // in case snake.body.back() == last (like grow)
-	board[snake.body.front().idx] = Entity::Kind::snake;
+	board[snake.last().idx] = Entity::Kind::snake; // in case snake.last() == last (like grow)
+	board[snake.head().idx] = Entity::Kind::snake;
 }
 
 void Board::spawnFruit()

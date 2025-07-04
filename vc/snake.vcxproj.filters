@@ -9,9 +9,6 @@
     <ClCompile Include="..\src\board.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -24,9 +21,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\src\entity.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\win32.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\src\fruit.hpp">

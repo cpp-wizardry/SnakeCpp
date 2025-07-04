@@ -146,14 +146,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\board.cpp" />
-    <ClCompile Include="..\src\win32.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\snake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\board.hpp" />
     <ClInclude Include="..\src\entity.hpp" />
-    <ClInclude Include="..\src\win32.hpp" />
     <ClInclude Include="..\src\fruit.hpp" />
     <ClInclude Include="..\src\snake.hpp" />
     <ClInclude Include="..\src\stdafx.h" />
