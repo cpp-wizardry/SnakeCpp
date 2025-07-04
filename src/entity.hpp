@@ -39,7 +39,7 @@ enum class Direction {
 	down,
 };
 
-constexpr bool isOpposite(Direction a, Direction b) noexcept
+constexpr bool isColinear(Direction a, Direction b) noexcept
 {
 	unsigned const aa = unsigned(a) & 0b1;
 	unsigned const bb = unsigned(b) & 0b1;
